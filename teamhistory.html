@@ -1,202 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Team History - Smart Waste</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f8;
-      color: #2c3e50;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team History</title>
 
-    header {
-      background: #2c3e50;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
+<style>
 
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+body{
+margin:0;
+font-family:Segoe UI,sans-serif;
+background:#f4f6f8;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+header{
+background:#2c3e50;
+color:white;
+padding:18px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
 
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin: 8px 0 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+.container{
+max-width:750px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
 
-    button {
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 15px;
-      margin-top: 5px;
-    }
+label{
+display:block;
+margin-top:12px;
+font-weight:bold;
+}
 
-    .add-btn {
-      background: #27ae60;
-      color: white;
-    }
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+border:1px solid #ccc;
+border-radius:8px;
+}
 
-    .add-btn:hover {
-      background: #219150;
-    }
+button{
+padding:12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:15px;
+}
 
-    .delete-btn {
-      background: #e74c3c;
-      color: white;
-      margin-top: 8px;
-    }
+.add-btn{
+width:100%;
+margin-top:18px;
+background:#27ae60;
+color:white;
+}
 
-    .delete-btn:hover {
-      background: #c0392b;
-    }
+.add-btn:hover{
+background:#219150;
+}
 
-    .member {
-      border: 1px solid #ddd;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      background: #fafafa;
-    }
+.member{
+margin-top:15px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:10px;
+background:#fafafa;
+}
 
-    .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      text-decoration: none;
-      background: #3498db;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      width: 200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.delete-btn{
+margin-top:10px;
+background:#e74c3c;
+color:white;
+width:100%;
+}
 
-    .back-link:hover {
-      background: #217dbb;
-    }
-  </style>
+.status{
+font-weight:bold;
+color:green;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:20px;
+background:#3498db;
+padding:12px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+}
+
+</style>
 </head>
+
 <body>
 
 <header>👷 Team & Vehicle Management</header>
 
 <div class="container">
 
-  <h2>Add Team Member</h2>
+<h2>Add Team Member</h2>
 
-  <label>👷 Name</label>
-  <input type="text" id="name" placeholder="Enter name">
+<label>Name</label>
+<input id="name" type="text">
 
-  <label>📞 Contact</label>
-  <input type="text" id="contact" placeholder="Enter contact number">
+<label>Contact</label>
+<input id="contact" type="text">
 
-  <label>🏢 Waste Source</label>
-  <select id="source">
-    <option value="Hospital">Hospital</option>
-    <option value="Household">Household</option>
-    <option value="Commercial Place">Commercial Place</option>
-  </select>
+<label>Waste Source</label>
+<select id="source">
+<option value="Hospital">Hospital</option>
+<option value="Household">Household</option>
+<option value="Commercial Place">Commercial Place</option>
+</select>
 
-  <label>🚛 Vehicle Number</label>
-  <input type="text" id="vehicle" placeholder="Enter vehicle number">
+<label>Vehicle Number</label>
+<input id="vehicle" type="text">
 
-  <button class="add-btn" onclick="addMember()">Add Member</button>
+<button class="add-btn" onclick="addMember()">Add Member</button>
 
-  <h2>Team List</h2>
-  <div id="teamList"></div>
+<h2>Team Members</h2>
+
+<div id="teamList"></div>
+
+<a class="back" href="records.html">Go To Records</a>
 
 </div>
 
-<a href="records.html" class="back-link">⬅ Go To Records</a>
-
 <script>
 
-let teamHistory = JSON.parse(localStorage.getItem("teamHistory")) || [];
+let teamHistory=JSON.parse(localStorage.getItem("teamHistory"))||[];
 
-function addMember() {
-  const name = document.getElementById("name").value.trim();
-  const contact = document.getElementById("contact").value.trim();
-  const source = document.getElementById("source").value;
-  const vehicle = document.getElementById("vehicle").value.trim();
+function addMember(){
 
-  if (!name || !contact || !vehicle) {
-    alert("Please fill all fields!");
-    return;
-  }
+const name=document.getElementById("name").value.trim();
+const contact=document.getElementById("contact").value.trim();
+const source=document.getElementById("source").value;
+const vehicle=document.getElementById("vehicle").value.trim();
 
-  const member = {
-    name: name,
-    contact: contact,
-    source: source,
-    vehicle: vehicle,
-    available:true
-  };
-
-  teamHistory.push(member);
-  localStorage.setItem("teamHistory", JSON.stringify(teamHistory));
-
-  alert("Team member added successfully!");
-
-  document.getElementById("name").value = "";
-  document.getElementById("contact").value = "";
-  document.getElementById("vehicle").value = "";
-
-  renderTeam();
+if(name==""||contact==""||vehicle==""){
+alert("Please fill all fields");
+return;
 }
 
-function renderTeam() {
-  const container = document.getElementById("teamList");
-  container.innerHTML = "";
+let member={
+name:name,
+contact:contact,
+source:source,
+vehicle:vehicle,
+available:true
+};
 
-  if (teamHistory.length === 0) {
-    container.innerHTML = "No team members added yet.";
-    return;
-  }
+teamHistory.push(member);
 
-  teamHistory.forEach((member, index) => {
-    const div = document.createElement("div");
-    div.className = "member";
+localStorage.setItem("teamHistory",JSON.stringify(teamHistory));
 
-    div.innerHTML = `
-      👷 <b>${member.name}</b><br>
-      📞 ${member.contact}<br>
-      🏢 ${member.source}<br>
-      🚛 ${member.vehicle}<br>
-      <button class="delete-btn" onclick="deleteMember(${index})">Delete</button>
-    `;
+alert("Member Added Successfully");
 
-    container.appendChild(div);
-  });
+document.getElementById("name").value="";
+document.getElementById("contact").value="";
+document.getElementById("vehicle").value="";
+
+renderTeam();
+}
+function renderTeam(){
+
+const container=document.getElementById("teamList");
+
+container.innerHTML="";
+
+if(teamHistory.length==0){
+
+container.innerHTML="<p>No team members added yet.</p>";
+
+return;
+
 }
 
-function deleteMember(index) {
-  if (confirm("Delete this member?")) {
-    teamHistory.splice(index, 1);
-    localStorage.setItem("teamHistory", JSON.stringify(teamHistory));
-    renderTeam();
-  }
+teamHistory.forEach((member,index)=>{
+
+let status=member.available?"🟢 Available":"🔴 Busy";
+
+container.innerHTML+=`
+
+<div class="member">
+
+<b>👷 ${member.name}</b><br><br>
+
+📞 <b>Contact:</b> ${member.contact}<br>
+
+🏢 <b>Source:</b> ${member.source}<br>
+
+🚛 <b>Vehicle:</b> ${member.vehicle}<br>
+
+<b>Status:</b>
+<span class="status">${status}</span>
+
+<button class="delete-btn" onclick="deleteMember(${index})">
+Delete Member
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function deleteMember(index){
+
+if(confirm("Delete this member?")){
+
+teamHistory.splice(index,1);
+
+localStorage.setItem("teamHistory",JSON.stringify(teamHistory));
+
+renderTeam();
+
+}
+
 }
 
 renderTeam();
