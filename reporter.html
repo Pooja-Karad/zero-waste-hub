@@ -195,8 +195,8 @@ function showTeamStatus() {
       📞 ${member.contact} |
       🚛 ${member.vehicle} |
       Status:
-      <span class="${member.available ? 'free' : 'busy'}">
-        ${member.available ? 'Free' : 'Busy'}
+      <span class="${member.available!==false ? 'free' : 'busy'}">
+        ${member.available!==false ? 'Free' : 'Busy'}
       </span>
       <br><br>
     `;
@@ -206,7 +206,7 @@ function showTeamStatus() {
 function assignCollector(type) {
   let teamHistory = JSON.parse(localStorage.getItem("teamHistory")) || [];
   let members = teamHistory.filter(m => m.source === type);
-  let freeMembers = members.filter(m => m.available === true);
+  let freeMembers = members.filter(m => m.available! === false);
 
   if (freeMembers.length === 0) return null;
 
